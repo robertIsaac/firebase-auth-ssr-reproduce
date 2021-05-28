@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/firebase-auth-ssr-reproduce",
+            "outputPath": "dist/firebase-auth-ssr-reproduce/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -98,6 +98,64 @@
             ],
             "scripts": []
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/firebase-auth-ssr-reproduce/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "firebase-auth-ssr-reproduce:build:development",
+              "serverTarget": "firebase-auth-ssr-reproduce:server:development"
+            },
+            "production": {
+              "browserTarget": "firebase-auth-ssr-reproduce:build:production",
+              "serverTarget": "firebase-auth-ssr-reproduce:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "firebase-auth-ssr-reproduce:build:production",
+              "serverTarget": "firebase-auth-ssr-reproduce:server:production"
+            },
+            "development": {
+              "browserTarget": "firebase-auth-ssr-reproduce:build:development",
+              "serverTarget": "firebase-auth-ssr-reproduce:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
