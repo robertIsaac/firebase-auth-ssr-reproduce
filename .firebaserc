@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "fir-auth-ssr-reproduce": {
+      "hosting": {
+        "firebase-auth-ssr-reproduce": [
+          "fir-auth-ssr-reproduce"
+        ]
+      }
+    }
+  }
+}
